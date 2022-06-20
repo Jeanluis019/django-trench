@@ -34,6 +34,17 @@ def generate_model_serializer(name: str, model: Model, fields: Iterable[str]) ->
     return type(name, (ModelSerializer,), {"Meta": meta_subclass})
 
 
+def generate_serializer(name: str, fields: Iterable[str]) -> Type:
+    meta_subclass = type(
+        "Meta",
+        (object,),
+        {
+            "fields": fields,
+        },
+    )
+    return type(name, (Serializer,), {"Meta": meta_subclass})
+
+
 class RequestBodyValidator(Serializer):
     def update(self, instance: Model, validated_data: OrderedDict[str, Any]):
         raise NotImplementedError
